@@ -8,11 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles; // HasRoles is Spatie's Laravel Permission package
+    use HasFactory, Notifiable, HasRoles, HasApiTokens; // 'HasRoles' is Spatie's Laravel Permission package's trait    // 'HasApiTokens' is Laravel Sanctum package's trait
 
     /**
      * The attributes that are mass assignable.
