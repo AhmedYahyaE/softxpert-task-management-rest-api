@@ -25,9 +25,10 @@ Route::prefix('v1')->group(function() {
     Route::middleware('auth:sanctum')->group(function() {
         // 'manager' Role routes
         Route::group(['middleware' => ['role:manager']], function() {
-            Route::post('/tasks/create', [TaskAPIController::class, 'store']);
-            Route::get('/tasks/{id}', [TaskAPIController::class, 'show']);
-
+            Route::post('/tasks', [TaskAPIController::class, 'store']); // Create a task
+            Route::get('/tasks/{id}', [TaskAPIController::class, 'show']); // Get a task by ID
+            Route::get('/tasks', [TaskAPIController::class, 'index']); // Retrieve All/Filtered Tasks
+            Route::put('/tasks/{id}', [TaskAPIController::class, 'update']); // Update a task by ID
         });
 
 

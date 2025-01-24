@@ -5,7 +5,7 @@ namespace App\Http\Requests\API\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreTaskRequest extends FormRequest
+class UpdateTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,13 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'     => ['required', 'integer', 'exists:users,id'],
-            'title'       => ['required', 'string', 'max:50'],
-            'description' => ['required', 'string', 'max:255'],
-            'status'      => ['required', 'string', Rule::in(['pending', 'completed', 'canceled'])],
-            'due_date'    => ['nullable', 'date', 'date_format:Y-m-d'],
+            'user_id'        => ['sometimes', 'integer', 'exists:users,id'],
+            'title'          => ['sometimes', 'string', 'max:50'],
+            'description'    => ['sometimes', 'string', 'max:255'],
+            'status'         => ['sometimes', 'string', Rule::in(['pending', 'completed', 'canceled'])],
+            'due_date'       => ['sometimes', 'date', 'date_format:Y-m-d'],
 
-            'dependencies'   => ['nullable', 'array'],
+            'dependencies'   => ['sometimes', 'array'],
             'dependencies.*' => ['integer', 'exists:tasks,id']
         ];
     }

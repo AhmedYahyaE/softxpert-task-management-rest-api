@@ -14,6 +14,12 @@ class TaskCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        // return parent::toArray($request);
+        return [
+            'data' => $this->collection, // Formatted as specified in TaskResource
+            'meta' => [ // My additional custom data
+                'number_of_tasks' => $this->collection->count()
+            ]
+        ];
     }
 }

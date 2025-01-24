@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\API\V1\StoreTaskRequest;
-use App\Services\TaskService;
-use App\Http\Resources\V1\TaskResource;
-use App\Http\Resources\V1\TaskCollection;
 use App\Models\Task;
+use App\Services\TaskService;
+use Illuminate\Http\Request;
+use App\Http\Requests\API\V1\{
+    StoreTaskRequest,
+    GetTasksRequest,
+    UpdateTaskRequest
+};
+use App\Http\Resources\V1\{
+    TaskResource,
+    TaskCollection
+};
+
 
 class TaskAPIController extends Controller
 {
@@ -18,25 +25,34 @@ class TaskAPIController extends Controller
 
 
 
-    public function index() {
+    public function index(GetTasksRequest $request) {
+        $tasks = $this->taskServiceInstance->getFilteredTasks($request->validated());
 
+        return new TaskCollection($tasks);
     }
 
     public function store(StoreTaskRequest $request) {
         $task = $this->taskServiceInstance->createTask($request->validated());
 
-
-        return response()->json([
-            'message' => 'Task created successfully!',
-            'task'    => new TaskResource($task)
-        ], 201); // 201 Created
+        return new TaskResource($task);
     }
 
     public function show(Task $id) { // Route Model Binding
-        return new TaskResource($id); // $id is an instance of the Task model because of Route Model Binding
+        return new TaskResource($id); // $id is an instance of the Task model due to Route Model Binding
     }
 
-    public function update() {
+    public function update(UpdateTaskRequest $request, Task $id) {
+        try {
+            $updatedTask = $this->taskServiceInstance->updateTask($id, $request->validated()); // $id is an instance of the Task model due to Route Model Binding
+            // dd($updatedTask);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()], 400
+            );
+        }
 
+
+        return new TaskResource($updatedTask);
     }
+
 }

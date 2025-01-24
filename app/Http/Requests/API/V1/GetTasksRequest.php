@@ -5,7 +5,7 @@ namespace App\Http\Requests\API\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreTaskRequest extends FormRequest
+class GetTasksRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,10 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'     => ['required', 'integer', 'exists:users,id'],
-            'title'       => ['required', 'string', 'max:50'],
-            'description' => ['required', 'string', 'max:255'],
-            'status'      => ['required', 'string', Rule::in(['pending', 'completed', 'canceled'])],
-            'due_date'    => ['nullable', 'date', 'date_format:Y-m-d'],
-
-            'dependencies'   => ['nullable', 'array'],
-            'dependencies.*' => ['integer', 'exists:tasks,id']
+            'status'        => ['nullable', 'string', Rule::in(['pending', 'completed', 'canceled'])],
+            'due_date_from' => ['nullable', 'date', 'date_format:Y-m-d', 'required_with:due_date_to'  , 'before_or_equal:due_date_to'],
+            'due_date_to'   => ['nullable', 'date', 'date_format:Y-m-d', 'required_with:due_date_from', 'after_or_equal:due_date_from'],
+            'assignee_id'   => ['nullable', 'integer', 'exists:users,id']
         ];
     }
 }

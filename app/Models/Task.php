@@ -32,7 +32,7 @@ class Task extends Model
 
 
     // The tasks that this task depends on
-    public function dependencies(): BelongsToMany
+    public function taskDependencies(): BelongsToMany
     {
         return $this->belongsToMany(Task::class, 'task_dependencies_pivot', 'task_id', 'dependency_id')->withTimestamps();
     }
