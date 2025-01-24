@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'created_by',
+        'title',
+        'description',
+        'status',
+        'due_date'
+    ];
+
+
+
     // Assigned user
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
@@ -18,15 +29,18 @@ class Task extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+
+
     // The tasks that this task depends on
     public function dependencies(): BelongsToMany
     {
-        return $this->belongsToMany(Task::class, 'task_dependencies_pivot', 'task_id', 'dependency_id');
+        return $this->belongsToMany(Task::class, 'task_dependencies_pivot', 'task_id', 'dependency_id')->withTimestamps();
     }
 
     // The tasks that depend on this task
     public function dependentTasks(): BelongsToMany
     {
-        return $this->belongsToMany(Task::class, 'task_dependencies_pivot', 'dependency_id', 'task_id');
+        return $this->belongsToMany(Task::class, 'task_dependencies_pivot', 'dependency_id', 'task_id')->withTimestamps();
     }
+
 }
