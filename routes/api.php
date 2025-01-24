@@ -7,11 +7,6 @@ use App\Http\Controllers\API\V1\{
     TaskAPIController
 };
 
-/*
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    })->middleware('auth:sanctum');
-*/
 
 
 // API Versioning
@@ -30,7 +25,6 @@ Route::prefix('v1')->group(function() {
             Route::get('/tasks', [TaskAPIController::class, 'index']); // Retrieve All/Filtered Tasks
             Route::put('/tasks/{id}', [TaskAPIController::class, 'update']); // Update a task by ID
         });
-
 
 
         // 'user' Role routes

@@ -25,8 +25,8 @@ class TaskService {
             $newTask = $this->taskRepositoryInstance->create($taskData);
 
             // Sync the task dependencies of the task in the `task_dependencies_pivot` table (if provided in the HTTP Request)
-            if (isset($taskData['dependencies'])) { // If dependencies are provided with the HTTP Request (If the task has dependencies), sync them (those dependencies tasks) in the pivot table with the newly created task
-                $this->taskRepositoryInstance->syncTaskDependenciesInPivotTable($newTask, $taskData['dependencies']);
+            if (isset($taskData['task_dependencies'])) { // If task_dependencies are provided with the HTTP Request (If the task has dependencies), sync them (those dependencies tasks) in the pivot table with the newly created task
+                $this->taskRepositoryInstance->syncTaskDependenciesInPivotTable($newTask, $taskData['task_dependencies']);
             }
         });
 
@@ -58,8 +58,8 @@ class TaskService {
             $this->taskRepositoryInstance->update($taskModel, $taskData);
 
             // Updae the task dependencies of the task in the `task_dependencies_pivot` table (if provided in the HTTP Request)
-            if (isset($taskData['dependencies'])) { // If dependencies are provided with the HTTP Request (If the task has dependencies), update them (those dependencies tasks) in the pivot table with the updated task
-                $this->taskRepositoryInstance->syncTaskDependenciesInPivotTable($taskModel, $taskData['dependencies']);
+            if (isset($taskData['task_dependencies'])) { // If task_dependencies are provided with the HTTP Request (If the task has dependencies), update them (those dependencies tasks) in the pivot table with the updated task
+                $this->taskRepositoryInstance->syncTaskDependenciesInPivotTable($taskModel, $taskData['task_dependencies']);
             }
         });
 

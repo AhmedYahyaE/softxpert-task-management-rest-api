@@ -30,8 +30,8 @@ class UpdateTaskRequest extends FormRequest
             'status'         => ['sometimes', 'string', Rule::in(['pending', 'completed', 'canceled'])],
             'due_date'       => ['sometimes', 'date', 'date_format:Y-m-d'],
 
-            'dependencies'   => ['sometimes', 'array'],
-            'dependencies.*' => ['integer', 'exists:tasks,id']
+            'task_dependencies'   => ['sometimes', 'array'],
+            'task_dependencies.*' => ['integer', 'exists:tasks,id']
         ];
     }
 }

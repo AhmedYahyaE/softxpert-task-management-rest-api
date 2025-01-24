@@ -30,8 +30,8 @@ class StoreTaskRequest extends FormRequest
             'status'      => ['required', 'string', Rule::in(['pending', 'completed', 'canceled'])],
             'due_date'    => ['nullable', 'date', 'date_format:Y-m-d'],
 
-            'dependencies'   => ['nullable', 'array'],
-            'dependencies.*' => ['integer', 'exists:tasks,id']
+            'task_dependencies'   => ['nullable', 'array'],
+            'task_dependencies.*' => ['integer', 'exists:tasks,id']
         ];
     }
 }
