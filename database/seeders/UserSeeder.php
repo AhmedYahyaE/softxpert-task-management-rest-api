@@ -17,18 +17,18 @@ class UserSeeder extends Seeder
     {
         // Create 'manager' role users
         $managerOne =  User::create([
-            'name' => 'Ahmed Yahya',
-            'email' => 'ahmed.yahya@email.com',
-            'password' => Hash::make('123456'),
+            'name'     => 'Ahmed Yahya',
+            'email'    => 'ahmed.yahya@email.com',
+            'password' => Hash::make('123456')
         ]);
 
         // Assign 'manager' role to the user
         $managerOne->assignRole(UserRoleEnum::MANAGER->value);
 
         $managerTwo =  User::create([
-            'name' => 'Farouk Azzam',
-            'email' => 'farouk.azzam@email.com',
-            'password' => Hash::make('123456'),
+            'name'     => 'Farouk Azzam',
+            'email'    => 'farouk.azzam@email.com',
+            'password' => Hash::make('123456')
         ]);
 
         // Assign 'manager' role to the user
@@ -37,6 +37,16 @@ class UserSeeder extends Seeder
 
 
         // Create 'user' role users
+        $userOne =  User::create([
+            'name'     => 'Ayman Fathy',
+            'email'    => 'ayman.fathy@email.com',
+            'password' => Hash::make('123456')
+        ]);
+
+        // Assign 'manager' role to the user
+        $userOne->assignRole(UserRoleEnum::USER->value);
+
+        // Create other 3 random 'user' role users
         for ($i = 0; $i < 3; $i++) {
             $randomUserName = fake()->name();
 
