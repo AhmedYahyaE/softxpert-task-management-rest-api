@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Enums\UserRoleEnum;
 
 class UserSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Assign 'manager' role to the user
-        $managerOne->assignRole('manager');
+        $managerOne->assignRole(UserRoleEnum::MANAGER->value);
 
         $managerTwo =  User::create([
             'name' => 'Farouk Azzam',
@@ -31,7 +32,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Assign 'manager' role to the user
-        $managerTwo->assignRole('manager');
+        $managerTwo->assignRole(UserRoleEnum::MANAGER->value);
 
 
 
@@ -46,7 +47,7 @@ class UserSeeder extends Seeder
             ]);
 
             // Assign 'user' role to the user
-            $user->assignRole('user');
+            $user->assignRole(UserRoleEnum::USER->value);
         }
 
     }

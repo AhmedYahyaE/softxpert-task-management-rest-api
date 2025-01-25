@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\API\V1\{
     APIAuthenticationController,
     TaskAPIController
@@ -19,7 +20,7 @@ Route::prefix('v1')->group(function() {
     // Protected Routes (Require Authentication using Sanctum)    // Authenticate user using Laravel's default authentication middleware using the 'sanctum' guard (which is defined in config/sanctum.php)
     Route::middleware('auth:sanctum')->group(function() {
         // 'manager' Role Routes
-        Route::group(['middleware' => ['role:manager']], function() {
+        Route::group(['middleware' => ['role:' . UserRoleEnum::MANAGER->value]], function() {
             Route::post('/tasks', [TaskAPIController::class, 'store']); // Create a task
             Route::get('/tasks/{id}', [TaskAPIController::class, 'show']); // Get a task by ID
             Route::get('/tasks', [TaskAPIController::class, 'index']); // Retrieve All/Filtered Tasks
@@ -28,7 +29,7 @@ Route::prefix('v1')->group(function() {
 
 
         // 'user' Role Routes
-        Route::group(['middleware' => ['role:user']], function() {
+        Route::group(['middleware' => ['role:' . UserRoleEnum::USER->value]], function() {
             Route::put('/user/tasks/{id}/status', [TaskAPIController::class, 'updateStatus']); // Update the status of a task by ID
             Route::get('/user/tasks', [TaskAPIController::class, 'getUserAssignedTasks']); // Retrieve user's tasks
         });

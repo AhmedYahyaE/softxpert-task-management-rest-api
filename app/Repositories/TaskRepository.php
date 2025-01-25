@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\TaskStatusEnum;
 use App\Models\{
     Task,
     User
@@ -9,8 +10,7 @@ use App\Models\{
 
 class TaskRepository {
     public function __construct(
-        private Task $model,
-        private User $userModel
+        private Task $model
     ) {}
 
 
@@ -23,7 +23,6 @@ class TaskRepository {
         $taskModel->taskDependencies()->sync($dependenciesArray);
     }
 
-    // Decorator Pattern
     public function applyFilters(array $filters): mixed {
         $queryBuilderObject = $this->model->query();
 
@@ -44,8 +43,8 @@ class TaskRepository {
     }
 
     public function areAllTaskDependenciesCompleted(Task $taskModel): Bool {
-        // dd($taskModel->taskDependencies()->where('status', '!=', 'completed')->pluck('status', 'task_dependencies_pivot.dependency_id'));
-        return $taskModel->taskDependencies()->where('status', '!=', 'completed')->exists() !== true; // Check if there are any dependencies that are NOT completed!
+        // dd($taskModel->taskDependencies()->where('status', '!=', TaskStatusEnum::COMPLETED->value)->pluck('status', 'task_dependencies_pivot.dependency_id'));
+        return $taskModel->taskDependencies()->where('status', '!=', TaskStatusEnum::COMPLETED->value)->exists() !== true; // Check if there are any dependencies that are NOT completed!
     }
 
     public function update(Task $taskModel, array $taskData): mixed {
@@ -54,9 +53,7 @@ class TaskRepository {
         return $taskModel;
     }
 
-    public function getUserTasks(int $userID): mixed {
-        $userModel = $this->userModel->findOrFail($userID);
-
+    public function getUserTasks(User $userModel): mixed {
         return $userModel->tasks()->get();
     }
 

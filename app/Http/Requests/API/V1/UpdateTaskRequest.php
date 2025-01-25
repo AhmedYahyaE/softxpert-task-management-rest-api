@@ -4,6 +4,10 @@ namespace App\Http\Requests\API\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Enums\{
+    TaskStatusEnum,
+    UserRoleEnum
+};
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -13,7 +17,7 @@ class UpdateTaskRequest extends FormRequest
     public function authorize(): bool
     {
         // return false;
-        return $this->user()->hasRole('manager'); // Already checked by the 'role:manager' middleware in api.php!
+        return $this->user()->hasRole(UserRoleEnum::MANAGER->value); // Already checked by the 'role:manager' middleware in api.php!
     }
 
     /**
@@ -27,7 +31,7 @@ class UpdateTaskRequest extends FormRequest
             'user_id'        => ['sometimes', 'integer', 'exists:users,id'],
             'title'          => ['sometimes', 'string', 'max:50'],
             'description'    => ['sometimes', 'string', 'max:255'],
-            'status'         => ['sometimes', 'string', Rule::in(['pending', 'completed', 'canceled'])],
+            'status'         => ['sometimes', 'string', Rule::in([TaskStatusEnum::PENDING->value, TaskStatusEnum::COMPLETED->value, TaskStatusEnum::CANCELED->value])],
             'due_date'       => ['sometimes', 'date', 'date_format:Y-m-d'],
 
             'task_dependencies'   => ['sometimes', 'array'],

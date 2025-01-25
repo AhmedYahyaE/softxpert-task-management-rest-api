@@ -5,6 +5,7 @@ namespace App\Http\Requests\API\V1;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
+use App\Enums\TaskStatusEnum;
 
 class UpdateTaskStatusRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class UpdateTaskStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'string', Rule::in(['pending', 'completed', 'canceled'])]
+            'status' => ['required', 'string', Rule::in([TaskStatusEnum::PENDING->value, TaskStatusEnum::COMPLETED->value, TaskStatusEnum::CANCELED->value])]
         ];
     }
 }

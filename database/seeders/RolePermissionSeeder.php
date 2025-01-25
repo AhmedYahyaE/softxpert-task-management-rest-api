@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Enums\UserRoleEnum;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -15,8 +16,8 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         // Create Spatie 'roles'
-        $managerRole = Role::create(['name' => 'manager']);
-        $userRole = Role::create(['name' => 'user']);
+        $managerRole = Role::create(['name' => UserRoleEnum::MANAGER->value]);
+        $userRole = Role::create(['name' => UserRoleEnum::USER->value]);
 
 
         // Create Spatie 'permissions'

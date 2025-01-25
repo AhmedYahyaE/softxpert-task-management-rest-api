@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\TaskStatusEnum;
 
 return new class extends Migration
 {
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
             $table->string('title');
             $table->text('description');
-            $table->enum('status', ['pending', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', [TaskStatusEnum::PENDING->value, TaskStatusEnum::COMPLETED->value, TaskStatusEnum::CANCELED->value])->default('pending');
             $table->date('due_date')->nullable();
         });
     }
