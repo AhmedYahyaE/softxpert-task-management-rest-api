@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Softxpert Task Management System REST API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a RESTful API for a Task Management System built using Laravel 11. It provides various functionalities such as task creation, updates, task dependencies, filtering tasks, and role-based access control (RBAC). The API uses Laravel Sanctum for stateless authentication and Spatie Laravel Permission package for role-based permissions.
 
-## About Laravel
+## Technical Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This appliction features stateless authentication using Laravel Sanctum, RBAC using Spatie Laravel Permission package, API Versioning, API Resource classes, Resource Collection classes, Database Transactions, PHP Enums, Design Patterns (Repository pattern, Service pattern, etc.), Factories & Seeders, Form Request classes, Exception & Error Handling, Policy classes, Docker containerization, Unit Tests, and Task Filtering, Task Dependencies management.
+API endpoints tested using Postman.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation Instructions
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Follow the steps below to set up and run the application locally.
 
-## Learning Laravel
+### Steps to Install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/AhmedYahyaE/softxpert-task-management-rest-api.git
+    cd softxpert-task-management-rest-api-main
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. **Install dependencies**:
+    ```bash
+    composer install
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Set up the environment file**:
+    Copy `.env.example` to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
 
-## Laravel Sponsors
+4. **Generate the application key**:  
+    This step generates a unique application key for encryption:  
+    ```bash
+    php artisan key:generate
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+5. **Configure the database**:
+    Open the `.env` file and set your database credentials:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_database_user
+    DB_PASSWORD=your_database_password
+    ```
 
-### Premium Partners
+6. **Migrate the database**:
+    Run the migrations to create the necessary tables:
+    ```bash
+    php artisan migrate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+7. **Seed the database**:
+    ```bash
+    php artisan db:seed
+    ```
 
-## Contributing
+8. **Install frontend dependencies**:
+    ```bash
+    npm install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+9. **Build Vite assets** (for frontend):
+    ```bash
+    npm run build
+    ```
 
-## Code of Conduct
+10. **Start the Laravel development server**:
+    ```bash
+    php artisan serve
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Now, your application should be running locally at `http://localhost:8000`. To experiment with the application, login through the POST /api/v1/login endpoint using the two (different) role users:
+- A 'manager' role user: Email: ahmed.yahya@email.com, Password: 123456
+- A 'user' role user: Email: ayman.fathy@email.com, Password: 123456
 
-## Security Vulnerabilities
+## Task Management API:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Note : Make sure to include the "Accept: application/json" Header with all your requests.
 
-## License
+Check my Postman Collection of the API on: https://www.postman.com/ahmed-yahya/my-public-portfolio-postman-workspace/collection/yb4gae4/softxpert-task-management-rest-api
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Task Attachments:
+
+Check the ERD of the database file, API Postman Collection files in [Task Attachments](<Task Attachments>) directory.
+
+N.B. Initial Docker containerization is implemented in [Docker Containerization](<Docker Containerization>) directory.
