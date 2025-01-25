@@ -4,8 +4,11 @@ namespace App\Services;
 
 use App\Repositories\TaskRepository;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Task;
 use Illuminate\Support\Facades\DB;
+use App\Models\{
+    User,
+    Task
+};
 
 class TaskService {
     public function __construct(
@@ -39,16 +42,7 @@ class TaskService {
     }
 
     public function updateTask(Task $taskModel, array $taskData) {
-        if (
-            isset($taskData['status'])
-            &&
-            $taskData['status'] === 'completed'
-            &&
-            $this->taskRepositoryInstance->areAllTaskDependenciesCompleted($taskModel) === false
-        ) {
-            throw new \Exception('Cannot mark task as completed until its all dependencies are completed!');
-        }
-
+        $this->checkIfAllTaskDependenciesCompleted($taskModel, $taskData);
 
         $taskData['created_by'] = Auth::id();
 
@@ -65,6 +59,33 @@ class TaskService {
 
 
         return $taskModel->load('taskDependencies'); // Eager load taskDependencies() for response
+    }
+
+    private function checkIfAllTaskDependenciesCompleted(Task $taskModel, $taskData): void {
+        // Check if the task is being marked as completed and if it has any dependencies that are NOT yet completed
+        if (
+            isset($taskData['status'])
+            &&
+            $taskData['status'] === 'completed'
+            &&
+            $this->taskRepositoryInstance->areAllTaskDependenciesCompleted($taskModel) === false
+        ) {
+            throw new \Exception('Cannot mark task as completed until its all dependencies are completed!');
+        }
+    }
+
+    public function updateTaskStatus(Task $taskModel, array $taskData) {
+        $this->checkIfAllTaskDependenciesCompleted($taskModel, $taskData);
+        $updatedStatusTask = $this->taskRepositoryInstance->update($taskModel, $taskData);
+
+
+        return $updatedStatusTask->load('taskDependencies'); // Eager load taskDependencies() for response
+    }
+
+
+
+    public function getUserTasks(int $userID): mixed {
+        return $this->taskRepositoryInstance->getUserTasks($userID);
     }
 
 }

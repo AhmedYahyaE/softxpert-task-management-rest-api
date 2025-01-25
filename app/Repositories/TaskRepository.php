@@ -2,11 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\Task;
+use App\Models\{
+    Task,
+    User
+};
 
 class TaskRepository {
     public function __construct(
-        private Task $model
+        private Task $model,
+        private User $userModel
     ) {}
 
 
@@ -48,6 +52,12 @@ class TaskRepository {
         $taskModel->update($taskData);
 
         return $taskModel;
+    }
+
+    public function getUserTasks(int $userID): mixed {
+        $userModel = $this->userModel->findOrFail($userID);
+
+        return $userModel->tasks()->get();
     }
 
 }

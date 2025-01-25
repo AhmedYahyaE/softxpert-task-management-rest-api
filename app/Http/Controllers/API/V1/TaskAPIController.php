@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\API\V1\{
     StoreTaskRequest,
     GetTasksRequest,
-    UpdateTaskRequest
+    UpdateTaskRequest,
+    UpdateTaskStatusRequest
 };
 use App\Http\Resources\V1\{
     TaskResource,
@@ -44,7 +46,6 @@ class TaskAPIController extends Controller
     public function update(UpdateTaskRequest $request, Task $id) {
         try {
             $updatedTask = $this->taskServiceInstance->updateTask($id, $request->validated()); // $id is an instance of the Task model due to Route Model Binding
-            // dd($updatedTask);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()], 400
@@ -53,6 +54,27 @@ class TaskAPIController extends Controller
 
 
         return new TaskResource($updatedTask);
+    }
+
+
+
+    public function updateStatus(UpdateTaskStatusRequest $request, Task $id) {
+        try {
+            $updatedStatusTask = $this->taskServiceInstance->updateTaskStatus($id, $request->validated()); // $id is an instance of the Task model due to Route Model Binding
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()], 400
+            );
+        }
+
+
+        return new TaskResource($updatedStatusTask);
+    }
+
+    public function getUserAssignedTasks() {
+        $userTasks = $this->taskServiceInstance->getUserTasks(Auth::id());
+
+        return new TaskCollection($userTasks);
     }
 
 }

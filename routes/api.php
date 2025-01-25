@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function() {
 
     // Protected Routes (Require Authentication using Sanctum)    // Authenticate user using Laravel's default authentication middleware using the 'sanctum' guard (which is defined in config/sanctum.php)
     Route::middleware('auth:sanctum')->group(function() {
-        // 'manager' Role routes
+        // 'manager' Role Routes
         Route::group(['middleware' => ['role:manager']], function() {
             Route::post('/tasks', [TaskAPIController::class, 'store']); // Create a task
             Route::get('/tasks/{id}', [TaskAPIController::class, 'show']); // Get a task by ID
@@ -27,8 +27,11 @@ Route::prefix('v1')->group(function() {
         });
 
 
-        // 'user' Role routes
-
+        // 'user' Role Routes
+        Route::group(['middleware' => ['role:user']], function() {
+            Route::put('/user/tasks/{id}/status', [TaskAPIController::class, 'updateStatus']); // Update the status of a task by ID
+            Route::get('/user/tasks', [TaskAPIController::class, 'getUserAssignedTasks']); // Retrieve user's tasks
+        });
 
     });
 
