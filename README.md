@@ -4,7 +4,7 @@ This is a RESTful API for a Task Management System built using Laravel 11. It pr
 
 ## Technical Features
 
-This appliction features stateless authentication using Laravel Sanctum, RBAC using Spatie Laravel Permission package, API Versioning, API Resource classes, Resource Collection classes, Database Transactions, PHP Enums, Design Patterns (Repository pattern, Service pattern, etc.), Factories & Seeders, Form Request classes, Exception & Error Handling, Policy classes, Logging, clean Git branching and commit messages, Docker containerization, Unit Tests, and Task Filtering, Task Dependencies management.
+This appliction features stateless authentication using Laravel Sanctum, RBAC using Spatie Laravel Permission package, API Versioning, API Resource classes, Resource Collection classes, Database Transactions, PHP Enums, Design Patterns (Repository pattern, Service pattern, etc.), Factories & Seeders, Form Request classes, Laravel Custom Validation Rules, Exception & Error Handling, Policy classes, Logging, clean Git branching and commit messages, Docker containerization, Unit Tests, and Task Filtering, Task Dependencies management.
 API endpoints tested using Postman.
 
 ## Installation Instructions

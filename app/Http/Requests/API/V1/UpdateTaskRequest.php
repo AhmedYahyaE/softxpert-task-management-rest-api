@@ -4,6 +4,8 @@ namespace App\Http\Requests\API\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\NoSelfDependency;
+use App\Rules\NoCircularCyclicalDependency;
 use App\Enums\{
     TaskStatusEnum,
     UserRoleEnum
@@ -34,7 +36,7 @@ class UpdateTaskRequest extends FormRequest
             'status'         => ['sometimes', 'string', Rule::in([TaskStatusEnum::PENDING->value, TaskStatusEnum::COMPLETED->value, TaskStatusEnum::CANCELED->value])],
             'due_date'       => ['sometimes', 'date', 'date_format:Y-m-d'],
 
-            'task_dependencies'   => ['sometimes', 'array'],
+            'task_dependencies'   => ['sometimes', 'array', new NoSelfDependency($this->route('id')), new NoCircularCyclicalDependency($this->route('id'))], // $this->route('id') is an instance of the Task model due to Route Model Binding
             'task_dependencies.*' => ['integer', 'exists:tasks,id']
         ];
     }

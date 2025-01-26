@@ -56,7 +56,9 @@ class TaskService {
 
             // Updae the task dependencies of the task in the `task_dependencies_pivot` table (if provided in the HTTP Request)
             if (isset($taskData['task_dependencies'])) { // If task_dependencies are provided with the HTTP Request (If the task has dependencies), update them (those dependencies tasks) in the pivot table with the updated task
-                $this->checkSelfAndCircularDependency($taskModel, $taskData['task_dependencies']);
+                // Converted to Custom Validation Rules in UpdateTaskRequest
+                // $this->checkSelfDependency($taskModel, $taskData['task_dependencies']);
+                // $this->checkCircularDependency($taskModel, $taskData['task_dependencies']);
                 $this->taskRepositoryInstance->syncTaskDependenciesInPivotTable($taskModel, $taskData['task_dependencies']);
             }
         });
@@ -79,14 +81,20 @@ class TaskService {
         }
     }
 
-    private function checkSelfAndCircularDependency(Task $taskModel, array $taskDependenciesArray) {
-        // Check Self-Dependency (if one of the provided dependencies in the request is the task itself) (A task cannot depend on itself)
-        if (in_array($taskModel->id, $taskDependenciesArray)) { // Check if the task is not included in its own dependencies
-            Log::error('Task ID: ' . $taskModel->id . ' Task Dependencies: ' . json_encode($taskDependenciesArray));
-            throw new \Exception('Task cannot depend on itself! Change dependency ID ' . $taskModel->id . ' in your request!');
+    // Converted to Custom Validation Rules in UpdateTaskRequest
+    /*
+        private function checkSelfDependency(Task $taskModel, array $taskDependenciesArray) {
+            // Check Self-Dependency (if one of the provided dependencies in the request is the task itself) (A task cannot depend on itself)
+            if (in_array($taskModel->id, $taskDependenciesArray)) { // Check if the task is not included in its own dependencies
+                Log::error('Task ID: ' . $taskModel->id . ' Task Dependencies: ' . json_encode($taskDependenciesArray));
+                throw new \Exception('Task cannot depend on itself! Change dependency ID ' . $taskModel->id . ' in your request!');
+            }
         }
+    */
 
-
+    // Converted to Custom Validation Rules in UpdateTaskRequest
+    /*
+    private function checkCircularDependency(Task $taskModel, array $taskDependenciesArray) {
         // Check Circular/Cyclical Dependency (if one of the provided dependencies in the request is already dependent on the task)
         $currentTaskDependentTasks = $taskModel->dependentTasks()->pluck('task_dependencies_pivot.task_id')->toArray(); // Get the IDs of the tasks that are dependent on the current task
 
@@ -98,6 +106,7 @@ class TaskService {
             }
         }
     }
+    */
 
 
 
