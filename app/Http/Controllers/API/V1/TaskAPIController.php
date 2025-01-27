@@ -49,8 +49,8 @@ class TaskAPIController extends Controller
             $updatedTask = $this->taskServiceInstance->updateTask($id, $request->validated()); // $id is an instance of the Task model due to Route Model Binding
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()], 400
-            );
+                'message' => $e->getMessage()
+            ], 400); // 400 Bad Request
         }
 
 
@@ -64,8 +64,8 @@ class TaskAPIController extends Controller
             $updatedStatusTask = $this->taskServiceInstance->updateTaskStatus($id, $request->validated()); // $id is an instance of the Task model due to Route Model Binding
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()], 400
-            );
+                'message' => $e->getMessage()
+            ], 400); // 400 Bad Request
         }
 
 
