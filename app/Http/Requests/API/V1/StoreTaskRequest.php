@@ -30,7 +30,7 @@ class StoreTaskRequest extends FormRequest
             'user_id'     => ['required', 'integer', 'exists:users,id'],
             'title'       => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:255'],
-            'status'      => ['required', 'string', Rule::in([TaskStatusEnum::PENDING->value, TaskStatusEnum::COMPLETED->value, TaskStatusEnum::CANCELED->value])],
+            'status'      => ['required', 'string', Rule::in([TaskStatusEnum::PENDING->value, TaskStatusEnum::CANCELED->value])], // Allow 'pending' and 'canceled' when creating a new task
             'due_date'    => ['nullable', 'date', 'date_format:Y-m-d'],
 
             'task_dependencies'   => ['nullable', 'array'],
